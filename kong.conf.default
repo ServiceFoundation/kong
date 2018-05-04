@@ -71,6 +71,10 @@
                                  # Use this property to disable plugins
                                  # that are bundled with Kong.
 
+                                 # This value can be set to `off` which
+                                 # disables all plugins that are
+                                 # bundled with Kong.
+
 #custom_plugins =                # Comma-separated list of additional plugins
                                  # this node should load.
                                  # Use this property to load custom plugins
