@@ -2,9 +2,10 @@ local crud = require "kong.api.crud_helpers"
 
 return {
 
-  ["/consumers/:username_or_id/plugins"] = {
+  ["/consumers/:consumers/plugins"] = {
     before = function(self, dao_factory, helpers)
-      self.params.username_or_id = ngx.unescape_uri(self.params.username_or_id)
+      self.params.username_or_id = ngx.unescape_uri(self.params.consumers)
+      self.params.consumers = nil
       crud.find_consumer_by_username_or_id(self, dao_factory, helpers)
       self.params.consumer_id = self.consumer.id
     end,
@@ -22,9 +23,10 @@ return {
     end
   },
 
-  ["/consumers/:username_or_id/plugins/:id"] = {
+  ["/consumers/:consumers/plugins/:id"] = {
     before = function(self, dao_factory, helpers)
-      self.params.username_or_id = ngx.unescape_uri(self.params.username_or_id)
+      self.params.username_or_id = ngx.unescape_uri(self.params.consumers)
+      self.params.consumers = nil
       crud.find_consumer_by_username_or_id(self, dao_factory, helpers)
       crud.find_plugin_by_filter(self, dao_factory, {
         consumer_id = self.consumer.id,
