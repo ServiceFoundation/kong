@@ -4,19 +4,21 @@ local function delete_cascade(self, table_name, fk)
   local old_dao = self.db.old_dao
   local rows, err = old_dao[table_name]:find_all(fk)
   if err then
-    ngx.log(ngx.ERR, "could not gather associated entities for delete cascade: ", err)
+    ngx.log(ngx.ERR, "[consumers.delete_cascade] could not gather associated ",
+                     "entities for delete cascade: ", err)
     return
   end
 
   for _, row in pairs(rows) do
     local row_pk, _, _, err  = old_dao[table_name].model_mt(row):extract_keys()
     if err then
-      ngx.log(ngx.ERR, "could not extract pk while delete-cascading entity: ", err)
+      ngx.log(ngx.ERR, "[consumers.delete_cascade] could not extract pk while ",
+                       "delete-cascading entity: ", err)
 
     else
       local _, err = old_dao[table_name]:delete(row_pk)
       if err then
-        ngx.log(ngx.ERR, "could not delete-cascade entity: ", err)
+        ngx.log(ngx.ERR, "[consumers.delete_cascade] could not delete-cascade entity: ", err)
       end
     end
   end
